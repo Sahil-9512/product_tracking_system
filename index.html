@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Storage and Retrieval</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+            perspective-origin: center;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            transform: translateY(-50px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+        }
+
+        .form-container {
+            position: relative;
+            width: 400px;
+            transform-style: preserve-3d;
+            transition: transform 1s, opacity 0.5s;
+            margin: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            transform: translateZ(0);
+            opacity: 0;
+            animation: formEntrance 1s forwards;
+            transform-origin: center bottom;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: calc(100% - 20px);
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        /* Add this button to index.html */
+        button[data-age-check] {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button[data-age-check]:hover {
+            background-color: #0b7dda;
+            transform: scale(1.05);
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes formEntrance {
+            to {
+                transform: rotateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Data Storage and Retrieval</h1>
+
+        <!-- Form for storing data -->
+        <form action="/storeData" method="post">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required>
+        
+            <!-- Hidden input for the admin value -->
+            <input type="hidden" id="admin" name="admin" value="">
+        
+            <button type="submit">Submit</button>
+        </form>
+
+        <hr>
+
+        <!-- Form for retrieving data -->
+        <form action="/retrieveData" method="post">
+            <label for="productNameForRetrieval">Product Name for Retrieval:</label>
+            <input type="text" id="productNameForRetrieval" name="productNameForRetrieval" required>
+
+            <button type="submit">Fetch Section</button>
+        </form>
+        
+        <!-- "Check Data Age" button -->
+        <button data-age-check onclick="checkDataAge()">Check Data Age</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('user');
+        if (username) {
+            const userDisplay = document.createElement('div');
+            userDisplay.innerHTML = `Welcome, ${username}!`;
+            userDisplay.style.position = 'fixed';
+            userDisplay.style.top = '10px';
+            userDisplay.style.right = '10px';
+            userDisplay.style.fontSize = '30px';
+           
+            document.body.appendChild(userDisplay);
+    
+            // Set the username as a hidden input value
+            const adminInput = document.getElementById('admin');
+            adminInput.value = username;
+        }
+
+        function checkDataAge() {
+            // Redirect to /dataAge route
+            window.location = '/dataAge';
+        }
+    </script>
+    
+
+</body>
+</html>
